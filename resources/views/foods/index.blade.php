@@ -49,12 +49,22 @@
 @if ($item['price'] >= 150)
     <span class="badge bg-warning text-dark">
     Premium
-<   /span>
+    </span>
 @else
     <span class="badge bg-success">
     Affordable
     </span>
 @endif
+</td>
+<td>
+    <form action="{{ route('foods.destroy', $item) }}" method="POST"
+      onsubmit="return confirm('Delete this record?')">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+    </form>
+
+
     </td>
     </tr>
 @empty

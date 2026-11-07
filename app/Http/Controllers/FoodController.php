@@ -53,27 +53,36 @@ class FoodController extends Controller
     return redirect()->route('foods.index');
     }
 
-    public function show(string $id)
+    public function show(Food $food)
     {
-        $food = Food::findOrFail($id);
-
-        return view('foods.show', ['item' => $food]);
+        return view('foods.show', compact('food'));
     }
 
-    public function edit(string $id)
+    public function edit(Food $food)
     {
-        //
+        $categories = Category::all();
+        return view('foods.edit', compact('food', 'categories'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Food $food)
     {
-        //
+        $validated = $request->validate([
+        'name'        => 'required|string|max:255',
+        'restaurant'  => 'required|string|max:255',
+        'category_id' => 'required|exists:categories,id',
+        'price'       => 'nullable|integer|min:0',
+    ]);
+
+    $food->update($validated);
+    return redirect()->route('foods.index');
     }
 
-    public function destroy(string $id)
-    {
-        //
-    }
+   public function destroy(Food $food)
+{
+    $food->delete();
+
+    return redirect()->route('foods.index');
+}
 
     public function featured()
     {

@@ -20,5 +20,4 @@ Route::get('/foods/filter/{value?}', function ($value = null) {
     return redirect()->route('foods.index');
 })->name('foods.filter');
 
-Route::resource('foods', FoodController::class)
-    ->only(['index', 'show', 'create', 'store']);
+Route::resource('foods', FoodController::class);
